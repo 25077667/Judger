@@ -7,27 +7,25 @@
 
 #include "../runner.h"
 
-
-int general_seccomp_rules(struct config *_config) {
-    int syscalls_blacklist[] = {SCMP_SYS(clone),
-                                SCMP_SYS(fork), SCMP_SYS(vfork),
-                                SCMP_SYS(kill), 
-#ifdef __NR_execveat
-                                SCMP_SYS(execveat)
-#endif
-                               };
+int general_seccomp_rules(struct config *_config)
+{
+    int syscalls_blacklist[] = {};
     int syscalls_blacklist_length = sizeof(syscalls_blacklist) / sizeof(int);
     scmp_filter_ctx ctx = NULL;
     // load seccomp rules
     ctx = seccomp_init(SCMP_ACT_ALLOW);
-    if (!ctx) {
+    if (!ctx)
+    {
         return LOAD_SECCOMP_FAILED;
     }
-    for (int i = 0; i < syscalls_blacklist_length; i++) {
-        if (seccomp_rule_add(ctx, SCMP_ACT_KILL, syscalls_blacklist[i], 0) != 0) {
+    for (int i = 0; i < syscalls_blacklist_length; i++)
+    {
+        if (seccomp_rule_add(ctx, SCMP_ACT_KILL, syscalls_blacklist[i], 0) != 0)
+        {
             return LOAD_SECCOMP_FAILED;
         }
     }
+    /*
     // use SCMP_ACT_KILL for socket, python will be killed immediately
     if (seccomp_rule_add(ctx, SCMP_ACT_ERRNO(EACCES), SCMP_SYS(socket), 0) != 0) {
         return LOAD_SECCOMP_FAILED;
@@ -50,8 +48,9 @@ int general_seccomp_rules(struct config *_config) {
     if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(openat), 1, SCMP_CMP(2, SCMP_CMP_MASKED_EQ, O_RDWR, O_RDWR)) != 0) {
         return LOAD_SECCOMP_FAILED;
     }
-
-    if (seccomp_load(ctx) != 0) {
+    */
+    if (seccomp_load(ctx) != 0)
+    {
         return LOAD_SECCOMP_FAILED;
     }
     seccomp_release(ctx);
