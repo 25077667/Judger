@@ -23,8 +23,7 @@ int _c_cpp_seccomp_rules(struct config *_config, bool allow_write_file)
     scmp_filter_ctx ctx = NULL;
     // load seccomp rules
     ctx = seccomp_init(SCMP_ACT_ALLOW);
-    if (!ctx)
-    {
+    if (!ctx) {
         return LOAD_SECCOMP_FAILED;
     }
     for (int i = 0; i < syscalls_whitelist_length; i++)

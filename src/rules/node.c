@@ -7,8 +7,8 @@
 
 #include "../runner.h"
 
-int node_seccomp_rules(struct config *_config)
-{
+
+int node_seccomp_rules(struct config *_config) {
     int syscalls_blacklist[] = {};
     int syscalls_blacklist_length = sizeof(syscalls_blacklist) / sizeof(int);
     scmp_filter_ctx ctx = NULL;

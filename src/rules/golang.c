@@ -7,18 +7,21 @@
 
 #include "../runner.h"
 
-
-int golang_seccomp_rules(struct config *_config) {
+int golang_seccomp_rules(struct config *_config)
+{
     int syscalls_blacklist[] = {};
     int syscalls_blacklist_length = sizeof(syscalls_blacklist) / sizeof(int);
     scmp_filter_ctx ctx = NULL;
     // load seccomp rules
     ctx = seccomp_init(SCMP_ACT_ALLOW);
-    if (!ctx) {
+    if (!ctx)
+    {
         return LOAD_SECCOMP_FAILED;
     }
-    for (int i = 0; i < syscalls_blacklist_length; i++) {
-        if (seccomp_rule_add(ctx, SCMP_ACT_KILL, syscalls_blacklist[i], 0) != 0) {
+    for (int i = 0; i < syscalls_blacklist_length; i++)
+    {
+        if (seccomp_rule_add(ctx, SCMP_ACT_KILL, syscalls_blacklist[i], 0) != 0)
+        {
             return LOAD_SECCOMP_FAILED;
         }
     }
@@ -37,7 +40,8 @@ int golang_seccomp_rules(struct config *_config) {
     //     return LOAD_SECCOMP_FAILED;
     // }
 
-    if (seccomp_load(ctx) != 0) {
+    if (seccomp_load(ctx) != 0)
+    {
         return LOAD_SECCOMP_FAILED;
     }
     seccomp_release(ctx);
