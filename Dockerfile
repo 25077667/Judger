@@ -10,7 +10,8 @@ COPY [".", "/src/"]
 WORKDIR /src
 RUN mkdir build && \
     cd build/ && \
-    cmake ..
+    cmake .. && \
+    make install
 
 FROM registry.cn-hangzhou.aliyuncs.com/onlinejudge/judge_server
 COPY --from=builder /src/output/libjudger.so /usr/lib/judger/libjudger.so
